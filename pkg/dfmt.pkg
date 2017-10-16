@@ -1,0 +1,26 @@
+# waveclean packaging configuration
+# =================================
+
+#from defaults import OPTS, ARGS
+import defaults
+
+dfmt_bindir='bin'
+
+#-------------------------------------------------------------------------------
+#    Define the keyword arguments to pass to fpm (via the OPTS dict)
+#-------------------------------------------------------------------------------
+
+OPTS.update(
+    description = '''\
+D source code formatter
+''',
+    depends = FUN.autodeps('dfmt', path=dfmt_bindir),
+)
+
+#-------------------------------------------------------------------------------
+#    Define the positional arguments to pass to fpm (via the ARGS list)
+#-------------------------------------------------------------------------------
+
+ARGS.extend(FUN.mapfiles(dfmt_bindir, '/usr/bin', 'dfmt'))
+
+# vim: set ft=python tw=80 :

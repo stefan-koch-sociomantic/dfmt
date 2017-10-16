@@ -1,4 +1,4 @@
-SRC := $(shell find src -name "*.d") \
+SRCS := $(shell find src -name "*.d") \
 	$(shell find libdparse/src -name "*.d")
 INCLUDE_PATHS := -Ilibdparse/src -Isrc
 DMD_COMMON_FLAGS := -dip25 -w $(INCLUDE_PATHS)
@@ -15,21 +15,28 @@ GDC ?= gdc
 
 dmd: bin/dfmt
 
-ldc: $(SRC)
+ldc: $(SRCS)
 	$(LDC) $(LDC_FLAGS) $^ -ofbin/dfmt
 	-rm -f *.o
 
-gdc: $(SRC)
+gdc: $(SRCS)
 	$(GDC) $(GDC_FLAGS) $^ -obin/dfmt
 
 test: debug
 	cd tests && ./test.sh
 
-bin/dfmt-test: $(SRC)
+bin/dfmt-test: $(SRCS)
 	$(DC) $(DMD_TEST_FLAGS) $^ -of$@
 
-bin/dfmt: $(SRC)
+bin/dfmt: $(SRCS)
 	$(DC) $(DMD_FLAGS) $^ -of$@
 
-debug: $(SRC)
+debug: $(SRCS)
 	$(DC) $(DMD_DEBUG_FLAGS) $^ -ofbin/dfmt
+
+pkg: dmd
+	$(MAKE) -f makd/Makd.mak pkg
+
+clean:
+	@rm -rf bin/dfmt
+
