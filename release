@@ -1,0 +1,19 @@
+#!/bin/bash
+
+v=$(git describe --tags | cut -c2- | \
+    sed 's/-\([0-9]\+\)-g\([0-9a-f]\+\)/+\1~\2/' | sed 's/-/./' \
+  )-$(lsb_release -cs)
+
+make
+
+m="Stefan Koch <stefan.koch@sociomantic.com>"
+
+fpm -f -s dir -t deb -n dfmt -v $v --maintainer "$m" \
+        --license BOOST1 --category prerelease \
+        --description "D source code formatter" \
+        --url 'https://github.com/dlang-community/dfmt' \
+        --vendor 'Sociomantic Labs GmbH' \
+        bin/dfmt=/usr/bin/dfmt \
+	bash-completion/completion/dfmt=/usr/share/bash-completion/completions/dfmt
+#D source code formatter
+# dfmt is a formatter for D source code.

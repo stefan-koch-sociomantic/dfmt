@@ -5,7 +5,14 @@
 
 module dfmt.main;
 
-private enum VERSION = "0.5.0";
+static if (is(typeof(import("VERSION"))))
+{
+    private enum VERSION = import("VERSION");
+}
+else
+{
+       private enum VERSION = "0.6.x";
+}
 
 version (NoMain)
 {
