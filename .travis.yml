@@ -12,7 +12,10 @@ os:
   - osx
 
 env:
-  - BUILD=
-  - BUILD=dub
+    matrix:
+        - BUILD=
+        - BUILD=dub
+    global:
+        - PATH="$(git config -f .gitmodules submodule.beaver.path)/bin:$PATH"
 
-script: ./.travis.sh
+#script: ./.travis.sh
