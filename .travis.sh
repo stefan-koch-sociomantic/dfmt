@@ -16,4 +16,3 @@ else
 fi
 
 cd tests && ./test.sh
-beaver install 
