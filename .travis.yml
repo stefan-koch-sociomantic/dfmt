@@ -18,4 +18,12 @@ env:
     global:
         - PATH="$(git config -f .gitmodules submodule.beaver.path)/bin:$PATH"
 
-#script: ./.travis.sh
+script: ./.travis.sh
+
+deploy:
+    provider: script
+    script: beaver bintray upload build/pkg/deb/*.deb
+    skip_cleanup: true
+    on:
+        tags: true # must be a git tag
+        repo: stefan-koch-sociomantic/dfmt # must be me!

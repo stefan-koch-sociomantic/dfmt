@@ -12,7 +12,8 @@ elif [[ $DC == ldc2 ]]; then
     make ldc -j2
 else
     git submodule update --init --recursive
-    make debug -j2
+    make pkg -j2
 fi
 
 cd tests && ./test.sh
+beaver install 
