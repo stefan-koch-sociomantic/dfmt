@@ -1,20 +1,20 @@
 sudo: false
 language: d
 d:
-  - dmd-nightly
-  - dmd-beta
+#  - dmd-nightly
+#  - dmd-beta
   - dmd
-  - ldc-beta
-  - ldc
+#  - ldc-beta
+#  - ldc
 
 os:
   - linux
-  - osx
+#  - osx
 
 env:
     matrix:
         - BUILD=
-        - BUILD=dub
+#        - BUILD=dub
     global:
         - PATH="$(git config -f .gitmodules submodule.beaver.path)/bin:$PATH"
 
