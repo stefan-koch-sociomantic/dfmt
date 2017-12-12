@@ -27,6 +27,7 @@ env:
 install: beaver docker build .
 
 script: 
+    - beaver docker run dmd -v
     - beaver docker run make pkg
 
 deploy:
