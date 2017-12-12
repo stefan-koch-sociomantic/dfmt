@@ -1,15 +1,8 @@
 sudo: false
 language: d
-d:
-#  - dmd-nightly
-#  - dmd-beta
-  - dmd
-#  - ldc-beta
-#  - ldc
 
 os:
   - linux
-#  - osx
 
 #before_install:
 #    - gem install fpm
