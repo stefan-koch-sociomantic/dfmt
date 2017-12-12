@@ -28,7 +28,7 @@ script: ./.travis.sh
 
 deploy:
     provider: script
-    script: beaver bintray upload -N build/pkg/deb/*.deb
+    script: beaver bintray upload -N build/last/pkg/*.deb
     skip_cleanup: true
     on:
         tags: true # must be a git tag
