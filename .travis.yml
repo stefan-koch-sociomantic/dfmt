@@ -18,7 +18,7 @@ env:
     global:
         - PATH="$(git config -f .gitmodules submodule.beaver.path)/bin:$PATH"
 
-script : .travis.sh
+script: ./.travis.sh
 
 jobs:
     include:
@@ -31,4 +31,5 @@ jobs:
           # before_install: and install: are inherited and we don't need to
           # override them.
            sudo: required
-           script : beaver docker build . && beaver docker run make pkg && beaver bintray upload -N build/last/pkg/*.deb
+           script: beaver docker build . && beaver docker run make pkg \
+                && beaver bintray upload -N build/last/pkg/*.deb
