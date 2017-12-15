@@ -38,5 +38,5 @@ jobs:
           before_install: git submodule update --init
           install: beaver docker build .
           script:
-              - beaver docker run make pkg
+              - beaver dlang make pkg
               - beaver bintray upload -d dlang-community/apt build/last/pkg/*.deb
