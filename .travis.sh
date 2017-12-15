@@ -12,7 +12,7 @@ elif [[ $DC == ldc2 ]]; then
     make ldc -j2
 else
     git submodule update --init --recursive
-    make pkg -j2
+    make debug -j2
 fi
 
 cd tests && ./test.sh
