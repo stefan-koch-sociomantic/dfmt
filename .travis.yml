@@ -35,5 +35,12 @@ jobs:
               - docker
           # before_install: and install: are inherited and we don't need to
           # override them.
-          script: beaver run make pkg && beaver bintray upload
-                  build/last/pkg/*.deb
+          script:
+              - beaver docker run make pkg
+          deploy:
+              provider: script
+              script: beaver bintray upload -N build/last/pkg/*.deb
+              skip_cleanup: true
+              on:
+                  tags: true # must be a git tag
+                  repo: stefan-koch-sociomantic/dfmt # must be me!
