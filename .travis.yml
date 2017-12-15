@@ -1,8 +1,15 @@
 sudo: false
 language: d
+d:
+  - dmd-nightly
+  - dmd-beta
+  - dmd
+  - ldc-beta
+  - ldc
 
 os:
   - linux
+  - osx
 
 env:
     matrix:
@@ -11,15 +18,4 @@ env:
     global:
         - PATH="$(git config -f .gitmodules submodule.beaver.path)/bin:$PATH"
 
-install: beaver docker build .
-
-script: 
-    - beaver docker run make pkg
-
-deploy:
-    provider: script
-    script: beaver bintray upload -N build/last/pkg/*.deb
-    skip_cleanup: true
-    on:
-        tags: true # must be a git tag
-        repo: dlang-community/dfmt #must be in main repo
+script : .travis.sh
