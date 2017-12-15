@@ -39,4 +39,4 @@ jobs:
           install: beaver docker build .
           script:
               - beaver docker run make pkg
-              - beaver bintray upload -N -d dlang-community/apt build/last/pkg/*.deb
+              - beaver bintray upload -d dlang-community/apt build/last/pkg/*.deb
