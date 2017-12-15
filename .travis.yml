@@ -20,10 +20,23 @@ env:
 
 script: ./.travis.sh
 
-deploy:
-    provider: script
-    script: beaver bintray upload build/pkg/deb/*.deb
-    skip_cleanup: true
-    on:
-        tags: true # must be a git tag
-        repo: stefan-koch-sociomantic/dfmt # must be me!
+jobs:
+    include:
+        - stage: Build & Upload Package
+          if: tag IS present
+          # Which package to deploy
+          env:
+              - DMD=2.077.*
+              - DIST=xenial
+              - PATH="$(git config -f .gitmodules submodule.beaver.path)/bin:$PATH"
+          language: generic
+          sudo: required
+          services:
+              - docker
+          git:
+              submodules: false
+          before_install: git submodule update --init
+          install: beaver docker build .
+          script:
+              - beaver docker run make pkg
+              - beaver bintray upload -N -d dlang-community/apt build/last/pkg/*.deb
