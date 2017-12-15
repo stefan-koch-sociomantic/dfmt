@@ -35,5 +35,5 @@ jobs:
               - docker
           # before_install: and install: are inherited and we don't need to
           # override them.
-          script: beaver dlang make pkg && beaver bintray upload
+          script: beaver run make pkg && beaver bintray upload
                   build/last/pkg/*.deb
