@@ -22,14 +22,14 @@ script: ./.travis.sh
 
 jobs:
     include:
-        - stage: Upload Package
-          # We need to include the exclusion of D2 tags because this "if"
-          # replaces the global one
-          if: tag IS present
-          # Which package to deploy
-          env: DMD=dmd DIST=xenial
-          # before_install: and install: are inherited and we don't need to
-          # override them.
-           sudo: required
-           script: beaver docker build . && beaver docker run make pkg \
+         - stage: Upload Package
+           # We need to include the exclusion of D2 tags because this "if"
+           # replaces the global one
+           if: tag IS present
+           # Which package to deploy
+           env: DMD=dmd DIST=xenial
+           # before_install: and install: are inherited and we don't need to
+           # override them.
+            sudo: required
+            script: beaver docker build . && beaver docker run make pkg \
                 && beaver bintray upload -N build/last/pkg/*.deb
