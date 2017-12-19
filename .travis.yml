@@ -39,4 +39,4 @@ jobs:
           install: beaver docker build .
           script:
               - beaver dlang make pkg
-              - beaver bintray upload -d dlang-community/apt build/last/pkg/*.deb
+              - beaver bintray upload -d stefan-koch-sociomantic/dlang-community/apt build/last/pkg/*.deb
