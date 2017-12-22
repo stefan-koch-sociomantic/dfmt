@@ -39,7 +39,7 @@ jobs:
           git:
               submodules: false
           before_install: git submodule update --init
-          install: beaver docker build .
+          install: beaver dlang install .
           script:
               - beaver dlang make pkg
           deploy:
