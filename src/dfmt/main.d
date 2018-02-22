@@ -76,6 +76,7 @@ else
     int main(string[] args)
     {
         bool inplace = false;
+        bool multiple_files = false;
         Config optConfig;
         optConfig.pattern = "*.d";
         bool showHelp;
@@ -237,14 +238,14 @@ else
             import std.file : dirEntries, isDir, SpanMode;
 
             if (args.length >= 2)
-                inplace = true;
+                multiple_files = true;
             while (args.length > 0)
             {
                 const path = args.front;
                 args.popFront();
                 if (isDir(path))
                 {
-                    inplace = true;
+                    multiple_files = true;
                     foreach (string name; dirEntries(path, "*.d", SpanMode.depth))
                         args ~= name;
                     continue;
@@ -268,7 +269,21 @@ else
                 buffer = new ubyte[](cast(size_t) f.size);
                 f.rawRead(buffer);
                 if (inplace)
+                {
                     output = File(path, "wb");
+                }
+                else if (multiple_files)
+                {
+                    if (path[$ - 2 .. $] == ".d")
+                    {
+                        output = File(path[0 .. $-2] ~ "_formatted.d", "wb");
+                    }
+                    else if (path[$ - 3 .. $] == ".di")
+                    {
+                        output = File(path[0 .. $ - 3] ~ "_formatted.di", "wb");
+                    }
+
+                }
                 format(path, buffer, output.lockingTextWriter(), &config);
             }
         }
