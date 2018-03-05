@@ -43,6 +43,7 @@ struct ASTInformation
         sort(conditionalWithElseLocations);
         sort(conditionalStatementLocations);
         sort(arrayStartLocations);
+        sort(arrayEndLocations);
         sort(contractLocations);
         sort(constraintLocations);
         sort(constructorDestructorLocations);
@@ -89,6 +90,9 @@ struct ASTInformation
     /// Locations of start locations of array initializers
     size_t[] arrayStartLocations;
 
+    /// Locations of end locations of array initializers
+    size_t[] arrayEndLocations;
+
     /// Locations of "in" and "out" tokens that begin contracts
     size_t[] contractLocations;
 
@@ -124,6 +128,7 @@ final class FormatVisitor : ASTVisitor
     override void visit(const ArrayInitializer arrayInitializer)
     {
         astInformation.arrayStartLocations ~= arrayInitializer.startLocation;
+        astInformation.arrayEndLocations ~= arrayInitializer.endLocation;
         arrayInitializer.accept(this);
     }
 
