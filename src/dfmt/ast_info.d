@@ -108,6 +108,7 @@ struct ASTInformation
     /// Locations of constructor/destructor "this" tokens ?
     size_t[] constructorDestructorLocations;
 
+    /// BraceIndentInfo used to determinte certain horz. spacing 
     BraceIndentInfo[] indentInfoSortedByEndLocation;
 }
 
