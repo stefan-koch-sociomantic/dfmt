@@ -52,6 +52,8 @@ struct ASTInformation
 
         sort!((a,b) => a.endLocation < b.endLocation)
             (indentInfoSortedByEndLocation);
+        sort!((a,b) => a.startLocation < b.startLocation)
+            (indentInfoSortedByStartLocation);
     }
 
     /// Locations of end braces for struct bodies
@@ -110,6 +112,8 @@ struct ASTInformation
 
     /// BraceIndentInfo used to determinte certain horz. spacing 
     BraceIndentInfo[] indentInfoSortedByEndLocation;
+    /// ditto
+    BraceIndentInfo[] indentInfoSortedByStartLocation;
 }
 
 /// Collects information from the AST that is useful for the formatter
@@ -130,6 +134,8 @@ final class FormatVisitor : ASTVisitor
     {
         astInformation.arrayStartLocations ~= arrayInitializer.startLocation;
         astInformation.arrayEndLocations ~= arrayInitializer.endLocation;
+        astInformation.indentInfoSortedByStartLocation ~=
+            BraceIndentInfo(arrayInitializer.startLocation, arrayInitializer.endLocation);
         arrayInitializer.accept(this);
     }
 
