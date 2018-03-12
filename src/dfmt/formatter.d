@@ -1624,14 +1624,15 @@ private:
 
     void pushWrapIndent(IdType type = tok!"")
     {
-        immutable t = type == tok!"" ? tokens[index].type : type;
-        if (parenDepth == 0)
+        if (type == tok!"")
+            type = tokens[index].type;
+
+        if (parenDepth == 0 && indents.wrapIndents == 0)
         {
-            if (indents.wrapIndents == 0)
-                indents.push(t);
+            indents.push(type);
         }
         else if (indents.wrapIndents < 1)
-            indents.push(t);
+            indents.push(type);
     }
 
 const pure @safe @nogc:
