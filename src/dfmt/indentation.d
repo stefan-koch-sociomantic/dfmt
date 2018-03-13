@@ -6,12 +6,14 @@
 module dfmt.indentation;
 
 import dparse.lexer;
+import core.stdc.stdio;
 
 /**
  * Returns: true if the given token type is a wrap indent type
  */
 bool isWrapIndent(IdType type) pure nothrow @nogc @safe
 {
+    // debug { () @trusted { printf("Callin isWrapIndent\n"); } (); }
     return type != tok!"{" && type != tok!"case" && type != tok!"@"
         && type != tok!"]" && type != tok!"(" && type != tok!")" && isOperator(type);
 }
@@ -21,8 +23,10 @@ bool isWrapIndent(IdType type) pure nothrow @nogc @safe
  */
 bool isTempIndent(IdType type) pure nothrow @nogc @safe
 {
+    // debug { () @trusted { printf("Calling isTempIndent\n");} (); }
     return type != tok!")" && type != tok!"{" && type != tok!"case" && type != tok!"@";
 }
+
 
 /**
  * Stack for managing indent levels.
@@ -32,7 +36,7 @@ struct IndentStack
     /**
      * Get the indent size at the most recent occurrence of the given indent type
      */
-    int indentOfMostRecent(IdType item) const
+    int indentOfMostRecent(IdType item, string file = __FILE__, size_t line = __LINE__) const
     {
         if (index == 0)
             return -1;
@@ -89,8 +93,9 @@ struct IndentStack
     /**
      * Pops all wrapping indents from the top of the stack.
      */
-    void popWrapIndents() pure nothrow @safe @nogc
+    void popWrapIndents(string file = __FILE__, size_t line = __LINE__) pure nothrow @safe @nogc
     {
+        // debug { () @trusted { printf("Calling popWrapIndents from %s:%d\n", &file[0], line); } (); }
         while (index > 0 && isWrapIndent(arr[index - 1]))
             index--;
     }
@@ -98,8 +103,9 @@ struct IndentStack
     /**
      * Pops all temporary indents from the top of the stack.
      */
-    void popTempIndents() pure nothrow @safe @nogc
+    void popTempIndents(string file = __FILE__, size_t line = __LINE__) pure nothrow @safe @nogc
     {
+        // debug { () @trusted { printf("Calling popTempIndents from %s:%d\n", &file[0], line); } (); }
         while (index > 0 && isTempIndent(arr[index - 1]))
             index--;
     }

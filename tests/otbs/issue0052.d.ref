@@ -5,4 +5,6 @@ enum Flags : int {
     IS_DMC = 0x8,
 }
 
-auto a = [b, c, d,];
+auto a = [
+b, c, d,
+];

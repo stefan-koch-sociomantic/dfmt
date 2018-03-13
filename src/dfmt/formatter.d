@@ -555,7 +555,7 @@ private:
             spaceAfterParens = true;
             parenDepth++;
         }
-        immutable bool arrayInitializerStart = p == tok!"[" && linebreakHints.length != 0
+        immutable bool arrayInitializerStart = p == tok!"["
             && astInformation.arrayStartLocations.canFindIndex(tokens[index - 1].index);
         if (arrayInitializerStart)
         {
@@ -1206,7 +1206,7 @@ private:
             formatColon();
             break;
         case tok!"]":
-            indents.popWrapIndents();
+//            indents.popWrapIndents();
             if (indents.topIs(tok!"]"))
                 newline();
             writeToken();
@@ -1479,7 +1479,7 @@ private:
             }
             else if (currentIs(tok!"]"))
             {
-                indents.popWrapIndents();
+//                indents.popWrapIndents();
                 if (indents.topIs(tok!"]"))
                 {
                     indents.pop();
