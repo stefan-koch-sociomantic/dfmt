@@ -414,7 +414,7 @@ private:
             if (peekBackIsOperator() && !isSeparationToken(t))
                 pushWrapIndent(t);
             else if (peekBackIs(tok!",") && prevTokenEndLine == currTokenLine
-                    && indents.indentToMostRecent(tok!"enum") == -1)
+                    && indents.indentOfMostRecent(tok!"enum") == -1)
                 pushWrapIndent(tok!",");
             if (peekBackIsOperator() && !peekBackIsOneOf(false, tok!"comment",
                     tok!"{", tok!"}", tok!":", tok!";", tok!",", tok!"[", tok!"(")
@@ -450,7 +450,7 @@ private:
                 if (currentIs(tok!")") && indents.topIs(tok!","))
                     indents.pop();
                 else if (peekBack2Is(tok!",") && !indents.topIs(tok!",")
-                        && indents.indentToMostRecent(tok!"enum") == -1)
+                        && indents.indentOfMostRecent(tok!"enum") == -1)
                     pushWrapIndent(tok!",");
                 newline();
             }
@@ -798,7 +798,7 @@ private:
             }
             else
             {
-                if (indents.topIsTemp && indents.indentToMostRecent(tok!"static") == -1)
+                if (indents.topIsTemp && indents.indentOfMostRecent(tok!"static") == -1)
                     indentLevel = indents.indentLevel - 1;
                 else
                     indentLevel = indents.indentLevel;
@@ -1324,7 +1324,7 @@ private:
         import std.algorithm : canFind;
 
         regenLineBreakHintsIfNecessary(index);
-        if (indents.indentToMostRecent(tok!"enum") != -1
+        if (indents.indentOfMostRecent(tok!"enum") != -1
                 && !peekIs(tok!"}") && indents.topIs(tok!"{") && parenDepth == 0)
         {
             writeToken();
@@ -1406,8 +1406,8 @@ private:
         {
             if (currentIs(tok!"else"))
             {
-                immutable i = indents.indentToMostRecent(tok!"if");
-                immutable v = indents.indentToMostRecent(tok!"version");
+                immutable i = indents.indentOfMostRecent(tok!"if");
+                immutable v = indents.indentOfMostRecent(tok!"version");
                 immutable mostRecent = max(i, v);
                 if (mostRecent != -1)
                     indentLevel = mostRecent;
@@ -1416,13 +1416,13 @@ private:
             {
                 if (peekBackIs(tok!"}", true) || peekBackIs(tok!";", true))
                     indents.popTempIndents();
-                immutable l = indents.indentToMostRecent(tok!"switch");
+                immutable l = indents.indentOfMostRecent(tok!"switch");
                 if (l != -1 && config.dfmt_align_switch_statements == OptionalBoolean.t)
                     indentLevel = l;
                 else if (config.dfmt_compact_labeled_statements == OptionalBoolean.f
                         || !isBlockHeader(2) || peek2Is(tok!"if"))
                 {
-                    immutable l2 = indents.indentToMostRecent(tok!"{");
+                    immutable l2 = indents.indentOfMostRecent(tok!"{");
                     indentLevel = l2 != -1 ? l2 : indents.indentLevel - 1;
                 }
                 else
@@ -1436,7 +1436,7 @@ private:
                     if (indents.topIs(tok!"case"))
                         indents.pop();
                 }
-                immutable l = indents.indentToMostRecent(tok!"switch");
+                immutable l = indents.indentOfMostRecent(tok!"switch");
                 if (l != -1)
                     indentLevel = config.dfmt_align_switch_statements == OptionalBoolean.t
                         ? l : indents.indentLevel;
@@ -1463,7 +1463,7 @@ private:
                     indents.pop();
                 if (indents.topIs(tok!"{"))
                 {
-                    indentLevel = indents.indentToMostRecent(tok!"{");
+                    indentLevel = indents.indentOfMostRecent(tok!"{");
                     indents.pop();
                 }
                 if (indents.topIsOneOf(tok!"try", tok!"catch"))
@@ -1490,7 +1490,7 @@ private:
             {
                 if (config.dfmt_outdent_attributes == OptionalBoolean.t)
                 {
-                    immutable l = indents.indentToMostRecent(tok!"{");
+                    immutable l = indents.indentOfMostRecent(tok!"{");
                     if (l != -1)
                         indentLevel = l;
                 }

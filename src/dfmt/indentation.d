@@ -32,7 +32,7 @@ struct IndentStack
     /**
      * Get the indent size at the most recent occurrence of the given indent type
      */
-    int indentToMostRecent(IdType item) const
+    int indentOfMostRecent(IdType item) const
     {
         if (index == 0)
             return -1;
