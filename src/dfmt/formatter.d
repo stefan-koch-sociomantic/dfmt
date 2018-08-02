@@ -394,15 +394,22 @@ private:
         size_t dfmtOn = index;
         foreach (i; dfmtOff + 1 .. tokens.length)
         {
-            dfmtOn = i;
             if (tokens[i].type != tok!"comment")
                 continue;
             immutable string commentText = commentText(i);
             if (commentText == "dfmt on")
+            {
+                dfmtOn = i;
                 break;
+            }
         }
+        //skp past "//dfmt on" because otherwise we will mess up indentation
+        if (tokens.length > dfmtOn + 1)
+        {
+            index = dfmtOn + 1;
+        }
+
         write(cast(string) rawSource[tokens[dfmtOff].index .. tokens[dfmtOn].index]);
-        index = dfmtOn;
     }
 
     void formatComment()
